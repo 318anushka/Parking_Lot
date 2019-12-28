@@ -2,14 +2,16 @@ package main.io.java.gojek.parkinglot1.dao.implement;
 
 import main.io.java.gojek.parkinglot1.dao.ParkingDataManager;
 import main.io.java.gojek.parkinglot1.model.Vehicle;
+import main.io.java.gojek.parkinglot1.model.planning.NearestParkingPlanning;
 import main.io.java.gojek.parkinglot1.model.planning.ParkingPlanning;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ParkingMemoryManager implements ParkingDataManager {
+public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManager<T> {
 
     // initial capacity of lot
     private int capacity = 0;
@@ -18,24 +20,45 @@ public class ParkingMemoryManager implements ParkingDataManager {
     // instance of ParkingPlanning
     private ParkingPlanning parkingPlanning;
 
-    private Map<Integer, Vehicle> slotMap;
+    private Map<Integer, Optional<T>> slotMap;
+
+    private static ParkingMemoryManager instance = null;
+
+    public static <T extends Vehicle> ParkingMemoryManager<T> getInstance(int capacity,
+                                                                          ParkingPlanning parkingPlanning)
+    {
+        if (instance == null)
+        {
+            synchronized (ParkingMemoryManager.class)
+            {
+                if (instance == null)
+                {
+                    instance = new ParkingMemoryManager<T>(capacity, parkingPlanning);
+                }
+            }
+        }
+        return instance;
+    }
 
     public ParkingMemoryManager(int capacity , ParkingPlanning parkingPlanning){
         this.capacity = capacity;
         this.availability = capacity;
         this.parkingPlanning = parkingPlanning;
 
+        if(parkingPlanning == null){
+            parkingPlanning = new NearestParkingPlanning();
+        }
         slotMap = new ConcurrentHashMap<>();
 
         for(int i=1;i<=capacity;i++){
-            slotMap.put(i,null);
+            slotMap.put(i,Optional.empty());
             parkingPlanning.addSlot(i);
         }
     }
 
 
     @Override
-    public int parkCar(Vehicle v) {
+    public int parkCar(T vehicle) {
         if(availability == 0){
             System.out.println("Slot Not Available");
             return -1;
@@ -43,7 +66,10 @@ public class ParkingMemoryManager implements ParkingDataManager {
         else {
             int availableSlot = parkingPlanning.getSlots();
 
-            slotMap.put(availableSlot, v);
+            if(slotMap.containsValue(Optional.of(vehicle))){
+                System.out.println("Vehicle Already Exists");
+            }
+            slotMap.put(availableSlot, Optional.of(vehicle));
             availability--;
             parkingPlanning.removeSlot(availableSlot);
 
@@ -54,9 +80,11 @@ public class ParkingMemoryManager implements ParkingDataManager {
     @Override
     public boolean leave(int slot) {
 
-        if(slotMap.get(slot) == null){
+        // slot already empty
+        if(!slotMap.get(slot).isPresent()){
             return false;
         }
+
         slotMap.put(slot , null);
         availability++;
         parkingPlanning.addSlot(slot);
@@ -69,9 +97,9 @@ public class ParkingMemoryManager implements ParkingDataManager {
 
         List<String> statusList = new ArrayList<>();
         for(int i=1;i<=capacity;i++){
-            Vehicle v = slotMap.get(i);
-            if(v!=null){
-                statusList.add(i + "\t\t" + v.getRegistrationNo() + "\t\t" + v.getColor());
+            Optional<T> v = slotMap.get(i);
+            if(v.isPresent()){
+                statusList.add(i + "\t\t" + v.get().getRegistrationNo() + "\t\t" + v.get().getColor());
             }
         }
 
@@ -83,10 +111,10 @@ public class ParkingMemoryManager implements ParkingDataManager {
 
         List<String> regList = new ArrayList<>();
         for(int i=1;i<=capacity;i++){
-            Vehicle v = slotMap.get(i);
-            if((v!=null) && color.equalsIgnoreCase(v.getColor())){
+            Optional<T> vehicle = slotMap.get(i);
+            if(vehicle.isPresent() && color.equalsIgnoreCase(vehicle.get().getColor())){
 
-                regList.add(v.getRegistrationNo());
+                regList.add(vehicle.get().getRegistrationNo());
             }
         }
 
@@ -98,8 +126,8 @@ public class ParkingMemoryManager implements ParkingDataManager {
 
         List<Integer> slotList = new ArrayList<>();
         for(int i=1;i<=capacity;i++){
-            Vehicle v = slotMap.get(i);
-            if((v!=null) && color.equalsIgnoreCase(v.getColor())){
+            Optional<T> vehicle = slotMap.get(i);
+            if((vehicle!=null) && color.equalsIgnoreCase(vehicle.get().getColor())){
 
                 slotList.add(i);
             }
@@ -113,8 +141,8 @@ public class ParkingMemoryManager implements ParkingDataManager {
 
         int slot = 0;
         for(int i=1;i<=capacity;i++){
-            Vehicle v = slotMap.get(i);
-            if((v!=null) && registrationNo.equalsIgnoreCase(v.getRegistrationNo())){
+            Optional<T> vehicle = slotMap.get(i);
+            if((vehicle!=null) && registrationNo.equalsIgnoreCase(vehicle.get().getRegistrationNo())){
 
                 slot = i;
             }
