@@ -23,6 +23,7 @@ public class ParkingMemoryManager implements ParkingDataManager {
         this.capacity = capacity;
         this.availability = capacity;
         this.parkingPlanning = parkingPlanning;
+
         slotMap = new ConcurrentHashMap<>();
 
         for(int i=1;i<=capacity;i++){
@@ -31,13 +32,24 @@ public class ParkingMemoryManager implements ParkingDataManager {
         }
     }
 
+
     @Override
-    public int parkCar() {
-        return 0;
+    public int parkCar(Vehicle v) {
+        int availableSlot = parkingPlanning.getSlots();
+
+        slotMap.put(availableSlot , v);
+        availability--;
+        parkingPlanning.removeSlot(availableSlot);
+
+        return availableSlot;
     }
 
     @Override
     public void leave(int slot) {
+
+        slotMap.put(slot , null);
+        availability++;
+        parkingPlanning.addSlot(slot);
 
     }
 
