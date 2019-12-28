@@ -41,6 +41,12 @@ public abstract class Vehicle implements Externalizable{
     }
 
     @Override
+    public String toString()
+    {
+        return "[registrationNo=" + registrationNo + ", color=" + color + "]";
+    }
+
+    @Override
     public void writeExternal(ObjectOutput o) throws IOException
     {
         o.writeObject(getRegistrationNo());
