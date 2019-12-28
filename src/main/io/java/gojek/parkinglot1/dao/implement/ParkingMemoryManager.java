@@ -36,21 +36,31 @@ public class ParkingMemoryManager implements ParkingDataManager {
 
     @Override
     public int parkCar(Vehicle v) {
-        int availableSlot = parkingPlanning.getSlots();
+        if(availability == 0){
+            System.out.println("Slot Not Available");
+            return -1;
+        }
+        else {
+            int availableSlot = parkingPlanning.getSlots();
 
-        slotMap.put(availableSlot , v);
-        availability--;
-        parkingPlanning.removeSlot(availableSlot);
+            slotMap.put(availableSlot, v);
+            availability--;
+            parkingPlanning.removeSlot(availableSlot);
 
-        return availableSlot;
+            return availableSlot;
+        }
     }
 
     @Override
-    public void leave(int slot) {
+    public boolean leave(int slot) {
 
+        if(slotMap.get(slot) == null){
+            return false;
+        }
         slotMap.put(slot , null);
         availability++;
         parkingPlanning.addSlot(slot);
+        return true;
 
     }
 

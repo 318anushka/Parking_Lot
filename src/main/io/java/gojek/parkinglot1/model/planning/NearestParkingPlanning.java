@@ -1,11 +1,12 @@
 package main.io.java.gojek.parkinglot1.model.planning;
 
 
-import java.util.HashSet;
+//import java.util.HashSet;
+import java.util.TreeSet;
 
 public class NearestParkingPlanning implements ParkingPlanning{
 
-    public HashSet<Integer> freeSlots  = new HashSet<Integer>();
+    public TreeSet<Integer> freeSlots  = new TreeSet<Integer>();
 
     @Override
     // add free slots to set
@@ -18,7 +19,7 @@ public class NearestParkingPlanning implements ParkingPlanning{
     @Override
     // get least free slot
     public int getSlots() {
-        return 0;
+        return freeSlots.first();
     }
 
     @Override
