@@ -1,14 +1,17 @@
 package main.io.java.gojek.parkinglot1.model.planning;
 
 
+import java.util.HashSet;
+
 public class NearestParkingPlanning implements ParkingPlanning{
 
-
+    public HashSet<Integer> freeSlots  = new HashSet<Integer>();
 
     @Override
     // add free slots to set
     public void addSlot(int i) {
 
+        freeSlots.add(i);
 
     }
 
@@ -22,5 +25,6 @@ public class NearestParkingPlanning implements ParkingPlanning{
     // remove slot from set once occupied
     public void removeSlot(int slot) {
 
+        freeSlots.remove(slot);
     }
 }
