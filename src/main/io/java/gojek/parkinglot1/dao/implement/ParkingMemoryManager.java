@@ -4,6 +4,7 @@ import main.io.java.gojek.parkinglot1.dao.ParkingDataManager;
 import main.io.java.gojek.parkinglot1.model.Vehicle;
 import main.io.java.gojek.parkinglot1.model.planning.ParkingPlanning;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -55,21 +56,60 @@ public class ParkingMemoryManager implements ParkingDataManager {
 
     @Override
     public List<String> getStatus() {
-        return null;
+
+        List<String> statusList = new ArrayList<>();
+        for(int i=1;i<=capacity;i++){
+            Vehicle v = slotMap.get(i);
+            if(v!=null){
+                statusList.add(i + "\t\t" + v.getRegistrationNo() + "\t\t" + v.getColor());
+            }
+        }
+
+        return statusList;
     }
 
     @Override
     public List<String> getRegistrationNoFromColor(String color) {
-        return null;
+
+        List<String> regList = new ArrayList<>();
+        for(int i=1;i<=capacity;i++){
+            Vehicle v = slotMap.get(i);
+            if((v!=null) && color.equalsIgnoreCase(v.getColor())){
+
+                regList.add(v.getRegistrationNo());
+            }
+        }
+
+        return regList;
     }
 
     @Override
-    public List<String> getSlotNoFromColor(String color) {
-        return null;
+    public List<Integer> getSlotNoFromColor(String color) {
+
+        List<Integer> slotList = new ArrayList<>();
+        for(int i=1;i<=capacity;i++){
+            Vehicle v = slotMap.get(i);
+            if((v!=null) && color.equalsIgnoreCase(v.getColor())){
+
+                slotList.add(i);
+            }
+        }
+
+        return slotList;
     }
 
     @Override
     public int getSlotNoFromRegistrationNo(String registrationNo) {
-        return 0;
+
+        int slot = 0;
+        for(int i=1;i<=capacity;i++){
+            Vehicle v = slotMap.get(i);
+            if((v!=null) && registrationNo.equalsIgnoreCase(v.getRegistrationNo())){
+
+                slot = i;
+            }
+        }
+
+        return slot;
     }
 }

@@ -10,7 +10,7 @@ public interface ParkingDataManager<T extends Vehicle> {
     public void leave(int slot);
     public List<String> getStatus();
     public List<String> getRegistrationNoFromColor(String color);
-    public List<String> getSlotNoFromColor(String color);
+    public List<Integer> getSlotNoFromColor(String color);
     public int getSlotNoFromRegistrationNo(String registrationNo);
 
 
