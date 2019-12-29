@@ -6,13 +6,13 @@ import java.util.Optional;
 
 public interface ParkingService extends AbstractService{
 
-    public void createParkingLot(int capacity);
-    public Optional<Integer> park(Vehicle vehicle);
-    public void leave (int slot);
-    public void getStatus();
-    public void getRegistrationNoFromColor(String color);
-    public void getSlotNoFromColor(String color);
-    public void getSlotNoFromRegistrationNo(String color);
+    public void createParkingLot(int capacity) throws Exception;
+    public Optional<Integer> park(Vehicle vehicle) throws Exception;
+    public void leave (int slot) throws Exception;
+    public void getStatus() throws Exception;
+    public void getRegistrationNoFromColor(String color) throws Exception;
+    public void getSlotNoFromColor(String color) throws Exception;
+    public void getSlotNoFromRegistrationNo(String color) throws Exception;
 
 
 }
