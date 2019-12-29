@@ -15,4 +15,8 @@ public enum Error {
         this.s = s;
     }
 
+    public String getMessage(){
+        return s;
+    }
+
 }
