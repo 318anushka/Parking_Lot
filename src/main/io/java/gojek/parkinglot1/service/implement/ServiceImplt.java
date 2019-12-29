@@ -7,6 +7,7 @@ import main.io.java.gojek.parkinglot1.model.planning.NearestParkingPlanning;
 import main.io.java.gojek.parkinglot1.model.planning.ParkingPlanning;
 import main.io.java.gojek.parkinglot1.service.ParkingService;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ServiceImplt implements ParkingService {
@@ -46,22 +47,45 @@ public class ServiceImplt implements ParkingService {
     }
 
     @Override
-    public void getStaus() {
+    public void getStatus() {
+
+        List<String> list = dataManager.getStatus();
+        for(String l: list){
+            System.out.println(l);
+        }
 
     }
 
     @Override
     public void getRegistrationNoFromColor(String color) {
 
+        List<String> list = dataManager.getRegistrationNoFromColor(color);
+        for(String l: list){
+            System.out.print(l+","+" ");
+        }
+
     }
 
     @Override
     public void getSlotNoFromColor(String color) {
 
+        List<Integer> list = dataManager.getSlotNoFromColor(color);
+        for(int l: list){
+            System.out.print(l+","+" ");
+        }
+
     }
 
     @Override
-    public void getSlotNoFromRegistrationNo(String color) {
+    public void getSlotNoFromRegistrationNo(String registrationNo) {
+
+        int num = dataManager.getSlotNoFromRegistrationNo(registrationNo);
+        if(num==0){
+            System.out.println("Vehicle not parked");
+        }
+        else{
+            System.out.println(num);
+        }
 
     }
 }

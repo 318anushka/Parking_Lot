@@ -9,7 +9,7 @@ public interface ParkingService extends AbstractService{
     public void createParkingLot(int capacity);
     public Optional<Integer> park(Vehicle vehicle);
     public void leave (int slot);
-    public void getStaus();
+    public void getStatus();
     public void getRegistrationNoFromColor(String color);
     public void getSlotNoFromColor(String color);
     public void getSlotNoFromRegistrationNo(String color);
