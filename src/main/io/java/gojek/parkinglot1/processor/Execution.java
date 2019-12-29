@@ -23,8 +23,14 @@ public class Execution {
 
             case Constants.CREATE_PARKING_LOT:
 
-                int capacity = Integer.parseInt(inputs[1]);
-                parkingService.createParkingLot(capacity);
+                try {
+                    int capacity = Integer.parseInt(inputs[1]);
+                    parkingService.createParkingLot(capacity);
+                }
+                catch(NumberFormatException e){
+                    System.out.println("Invalid value");
+                }
+
                 break;
 
             case Constants.PARK:
@@ -34,7 +40,12 @@ public class Execution {
 
             case Constants.LEAVE:
 
-                parkingService.leave(Integer.parseInt(inputs[1]));
+                try {
+                    parkingService.leave(Integer.parseInt(inputs[1]));
+                }
+                catch(NumberFormatException e){
+                    System.out.println("Invalid Slot Number");
+                }
                 break;
 
             case Constants.STATUS:
