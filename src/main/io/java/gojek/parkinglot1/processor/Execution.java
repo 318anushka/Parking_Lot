@@ -11,7 +11,7 @@ public class Execution {
 
     private ParkingService parkingService ;
 
-    public void setParkingService(ParkingService parkingService){
+    public void setParkingService(ParkingService parkingService) throws Exception{
         this.parkingService = parkingService;
     }
 

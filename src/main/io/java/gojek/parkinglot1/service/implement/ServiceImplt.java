@@ -60,7 +60,8 @@ public class ServiceImplt implements ParkingService {
         try {
             if (dataManager.leave(slot)) {
                 System.out.println("Slot" + " " + slot + " " + "is empty");
-            } else {
+            }
+            else {
                 System.out.println("Slot already empty");
 
             }
