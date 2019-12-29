@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface ParkingService extends AbstractService{
 
     public void createParkingLot(int capacity);
-    public Optional<Integer> park(int capacity , Vehicle vehicle);
+    public Optional<Integer> park(Vehicle vehicle);
     public void leave (int slot);
     public void getStaus();
     public void getRegistrationNoFromColor(String color);
