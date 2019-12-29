@@ -24,21 +24,28 @@ public class main {
 
         while(true){
 
-            br = new BufferedReader(new InputStreamReader(System.in));
-            input = br.readLine().trim();
+            try {
+                br = new BufferedReader(new InputStreamReader(System.in));
+                input = br.readLine().trim();
 
-            if(input.equalsIgnoreCase("exit")){
-                break;
-            }
+                if (input.equalsIgnoreCase("exit")) {
+                    break;
+                } else {
 
-            else{
-
-                if(validate.validate(input)){
-                    execute.execute(input);}
-
-                else{
-                    inputFormat();
+                    if (validate.validate(input)) {
+                        try{
+                        execute.execute(input);
+                        }
+                        catch(Exception e){
+                            System.out.println("Execution problem");
+                        }
+                    } else {
+                        inputFormat();
+                    }
                 }
+            }
+            catch(Exception e){
+                System.out.println("Invalid Request");
             }
 
         }
