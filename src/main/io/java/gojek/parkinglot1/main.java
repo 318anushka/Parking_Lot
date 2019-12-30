@@ -55,6 +55,8 @@ public class main {
                 }
 
             }
+            break;
+
             }
 
             case 1: {
@@ -85,6 +87,12 @@ public class main {
 
                     throw new ParkingException(Error.INVALID_REQUEST.getMessage() , e);
                 }
+                break;
+            }
+
+            default: {
+                System.out.println("Invalid Request, either provide input or file");
+                break;
             }
 
         }
