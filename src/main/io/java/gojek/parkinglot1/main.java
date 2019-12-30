@@ -57,25 +57,35 @@ public class main {
             }
             }
 
-            case 1:
+            case 1: {
 
-                File inputFile = new File(args[0]);
-                br = new BufferedReader(new FileReader(inputFile));
-                while(br.readLine()!=null){
+                try {
 
-                    input = input.trim();
+                    File inputFile = new File(args[0]);
+                    br = new BufferedReader(new FileReader(inputFile));
+                    while (br.readLine() != null) {
 
-                    if(validate.validate(input)){
+                        input = input.trim();
 
-                        execute.execute(input);
+                        if (validate.validate(input)) {
+                            try {
+
+                                execute.execute(input);
+                            }
+                            catch(Exception e){
+                                System.out.println(e.getMessage());
+                            }
+                        } else {
+                            inputFormat();
+                        }
                     }
-                    else{
-                        inputFormat();
-                    }
+
                 }
+                catch(Exception e){
 
-
-
+                    throw new ParkingException(Error.INVALID_REQUEST.getMessage() , e);
+                }
+            }
 
         }
     }
