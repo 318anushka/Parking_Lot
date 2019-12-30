@@ -74,7 +74,7 @@ public class ServiceImplt implements ParkingService {
             }
         }
         catch(Exception e){
-            System.out.println("Invalid value input");
+            //System.out.println("Invalid value input");
             throw new ParkingException(Error.INVALID_VALUE.getMessage(),e);
         }
 
@@ -97,7 +97,7 @@ public class ServiceImplt implements ParkingService {
             }
         }
         catch(Exception e){
-            System.out.println("Execution error!");
+           // System.out.println("Execution error!");
             throw new ParkingException(Error.EXECUTION_ERROR.getMessage(),e);
         }
 

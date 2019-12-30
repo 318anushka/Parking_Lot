@@ -39,7 +39,7 @@ public class main {
 
                         if (validate.validate(input)) {
                             try {
-                                execute.execute(input);
+                                execute.execute(input.trim());
                             } catch (Exception e) {
 
                                 System.out.println(e.getMessage());

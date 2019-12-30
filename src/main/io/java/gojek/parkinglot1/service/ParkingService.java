@@ -13,7 +13,7 @@ public interface ParkingService extends AbstractService{
     public void getStatus() throws ParkingException;
     public void getRegistrationNoFromColor(String color) throws ParkingException;
     public void getSlotNoFromColor(String color) throws ParkingException;
-    public void getSlotNoFromRegistrationNo(String color) throws ParkingException;
+    public void getSlotNoFromRegistrationNo(String registrationNo) throws ParkingException;
 
 
 }

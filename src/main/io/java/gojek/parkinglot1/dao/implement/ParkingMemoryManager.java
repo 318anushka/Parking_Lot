@@ -147,7 +147,7 @@ public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManag
         int slot = 0;
         for(int i=1;i<=capacity;i++){
             Optional<T> vehicle = slotMap.get(i);
-            if((vehicle!=null) && registrationNo.equalsIgnoreCase(vehicle.get().getRegistrationNo())){
+            if((vehicle.isPresent()) && registrationNo.equalsIgnoreCase(vehicle.get().getRegistrationNo())){
 
                 slot = i;
             }
