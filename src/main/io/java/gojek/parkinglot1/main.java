@@ -65,7 +65,7 @@ public class main {
 
                     File inputFile = new File(args[0]);
                     br = new BufferedReader(new FileReader(inputFile));
-                    while (br.readLine() != null) {
+                    while ((input = br.readLine()) != null) {
 
                         input = input.trim();
 
