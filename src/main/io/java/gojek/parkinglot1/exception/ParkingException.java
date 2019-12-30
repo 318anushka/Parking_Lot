@@ -2,7 +2,15 @@ package main.io.java.gojek.parkinglot1.exception;
 
 import main.io.java.gojek.parkinglot1.service.ParkingService;
 
+import java.awt.*;
+import java.util.Objects;
+
 public class ParkingException extends Exception {
+
+    static final long serialVersionUID = 4980196508277280342L;
+
+    private String		errorCode		= null;	// this will hold system defined error code
+    private Object[]	errorParameters	= null;	// this will hold parameters for error code/message
 
     public ParkingException (String message) {
 
@@ -17,6 +25,26 @@ public class ParkingException extends Exception {
     public ParkingException (Throwable throwable){
 
         super(throwable);
+    }
+
+    public ParkingException(String errorCode , String message , Objects[] errorParameters){
+
+        super(message);
+        this.errorCode = errorCode;
+        this.errorParameters = errorParameters;
+    }
+
+    public ParkingException(String message , String errorCode , Throwable throwable){
+
+        super(message,throwable);
+        this.errorCode = errorCode;
+    }
+
+    public ParkingException(String message,String errorCode , Objects[] errorParameters , Throwable throwable){
+
+        super(message,throwable);
+        this.errorCode = errorCode;
+        this.errorParameters = errorParameters;
     }
 
 }
