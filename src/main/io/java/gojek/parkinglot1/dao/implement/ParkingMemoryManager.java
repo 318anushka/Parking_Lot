@@ -68,6 +68,7 @@ public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManag
 
             if(slotMap.containsValue(Optional.of(vehicle))){
                 System.out.println("Vehicle Already Exists");
+                return -2;
             }
             slotMap.put(availableSlot, Optional.of(vehicle));
             availability--;
