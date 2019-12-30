@@ -8,14 +8,12 @@ import main.io.java.gojek.parkinglot1.service.ParkingService;
 import main.io.java.gojek.parkinglot1.service.implement.ServiceImplt;
 import main.io.java.gojek.parkinglot1.exception.Error;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Optional;
 
 public class main {
 
-    public static void main(String[] args) throws ParkingException {
+    public static void main(String[] args) throws ParkingException, IOException {
 
         Execution execute = new Execution();
         Validation validate = new Validation();
@@ -24,39 +22,63 @@ public class main {
         BufferedReader br = null;
         String input = null;
 
-        while(true){
+        switch (args.length) {
 
-            try {
-                br = new BufferedReader(new InputStreamReader(System.in));
-                input = br.readLine().trim();
+            case 0:
 
-                if (input.equalsIgnoreCase("exit")) {
-                    break;
-                } else {
+            {
+            while (true) {
 
-                    if (validate.validate(input)) {
-                        try{
-                        execute.execute(input);
-                        }
-                        catch(Exception e){
+                try {
+                    br = new BufferedReader(new InputStreamReader(System.in));
+                    input = br.readLine().trim();
 
-                            System.out.println(e.getMessage());
-                        }
+                    if (input.equalsIgnoreCase("exit")) {
+                        break;
                     } else {
+
+                        if (validate.validate(input)) {
+                            try {
+                                execute.execute(input);
+                            } catch (Exception e) {
+
+                                System.out.println(e.getMessage());
+                            }
+                        } else {
+                            inputFormat();
+                        }
+                    }
+                } catch (Exception e) {
+                    //System.out.println("Invalid Request");
+                    throw new ParkingException(Error.INVALID_REQUEST.getMessage(), e);
+
+                }
+
+            }
+            }
+
+            case 1:
+
+                File inputFile = new File(args[0]);
+                br = new BufferedReader(new FileReader(inputFile));
+                while(br.readLine()!=null){
+
+                    input = input.trim();
+
+                    if(validate.validate(input)){
+
+                        execute.execute(input);
+                    }
+                    else{
                         inputFormat();
                     }
                 }
-            }
-            catch(Exception e){
-                //System.out.println("Invalid Request");
-                throw new ParkingException(Error.INVALID_REQUEST.getMessage(),e);
 
-            }
 
-        }
 
 
         }
+    }
 
     private static void inputFormat() {
 
