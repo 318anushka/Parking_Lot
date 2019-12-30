@@ -17,7 +17,7 @@ public class Execution {
         this.parkingService = parkingService;
     }
 
-    public void execute(String input) throws Exception {
+    public void execute(String input) throws ParkingException {
         String[] inputs = input.split(" ");
         String in = inputs[0];
 

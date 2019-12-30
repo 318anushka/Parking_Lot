@@ -2,11 +2,14 @@ package main.io.java.gojek.parkinglot1.service.implement;
 
 import main.io.java.gojek.parkinglot1.dao.ParkingDataManager;
 import main.io.java.gojek.parkinglot1.dao.implement.ParkingMemoryManager;
+import main.io.java.gojek.parkinglot1.exception.ParkingException;
 import main.io.java.gojek.parkinglot1.model.Vehicle;
 import main.io.java.gojek.parkinglot1.model.planning.NearestParkingPlanning;
 import main.io.java.gojek.parkinglot1.model.planning.ParkingPlanning;
 import main.io.java.gojek.parkinglot1.processor.Execution;
 import main.io.java.gojek.parkinglot1.service.ParkingService;
+import main.io.java.gojek.parkinglot1.exception.Error;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +20,7 @@ public class ServiceImplt implements ParkingService {
     private ParkingDataManager<Vehicle> dataManager = null;
 
     @Override
-    public void createParkingLot(int capacity) throws Exception{
+    public void createParkingLot(int capacity) throws ParkingException{
 
         if(dataManager !=null){
             System.out.println("Parking Lot already exists");
@@ -30,7 +33,7 @@ public class ServiceImplt implements ParkingService {
     }
 
     @Override
-    public Optional<Integer> park(Vehicle vehicle) throws Exception{
+    public Optional<Integer> park(Vehicle vehicle) throws ParkingException{
 
         Optional<Integer> parkedAt = Optional.empty();
         try{
@@ -46,7 +49,10 @@ public class ServiceImplt implements ParkingService {
             }
         }
         catch(Exception e){
-            System.out.println("Parking lot doesn't exist");
+
+            //System.out.println("Parking lot doesn't exist");
+            throw new ParkingException(Error.EXECUTION_ERROR.getMessage(),e);
+
         }
 
 
@@ -55,7 +61,7 @@ public class ServiceImplt implements ParkingService {
     }
 
     @Override
-    public void leave(int slot) throws Exception {
+    public void leave(int slot) throws ParkingException {
 
         try {
             if (dataManager.leave(slot)) {
@@ -68,13 +74,14 @@ public class ServiceImplt implements ParkingService {
         }
         catch(Exception e){
             System.out.println("Invalid value input");
+            throw new ParkingException(Error.INVALID_VALUE.getMessage(),e);
         }
 
 
     }
 
     @Override
-    public void getStatus() throws Exception{
+    public void getStatus() throws ParkingException{
 
         try {
 
@@ -90,12 +97,13 @@ public class ServiceImplt implements ParkingService {
         }
         catch(Exception e){
             System.out.println("Execution error!");
+            throw new ParkingException(Error.EXECUTION_ERROR.getMessage(),e);
         }
 
     }
 
     @Override
-    public void getRegistrationNoFromColor(String color) throws Exception {
+    public void getRegistrationNoFromColor(String color) throws ParkingException {
 
         try {
             List<String> list = dataManager.getRegistrationNoFromColor(color);
@@ -109,13 +117,14 @@ public class ServiceImplt implements ParkingService {
             }
         }
         catch(Exception e){
-            System.out.println("Execution error");
+            //System.out.println("Execution error");
+            throw new ParkingException(Error.EXECUTION_ERROR.getMessage(),e);
         }
 
     }
 
     @Override
-    public void getSlotNoFromColor(String color) throws Exception{
+    public void getSlotNoFromColor(String color) throws ParkingException{
 
         try {
             List<Integer> list = dataManager.getSlotNoFromColor(color);
@@ -129,13 +138,14 @@ public class ServiceImplt implements ParkingService {
             }
         }
         catch(Exception e){
-            System.out.println("Execution error");
+            //System.out.println("Execution error");
+            throw new ParkingException(Error.EXECUTION_ERROR.getMessage(),e);
         }
 
     }
 
     @Override
-    public void getSlotNoFromRegistrationNo(String registrationNo) throws Exception{
+    public void getSlotNoFromRegistrationNo(String registrationNo) throws ParkingException{
 
         try {
             int num = dataManager.getSlotNoFromRegistrationNo(registrationNo);
@@ -146,7 +156,8 @@ public class ServiceImplt implements ParkingService {
             }
         }
         catch(Exception e){
-            System.out.println("Execution error");
+            //System.out.println("Execution error");
+            throw new ParkingException(Error.EXECUTION_ERROR.getMessage(),e);
         }
 
     }

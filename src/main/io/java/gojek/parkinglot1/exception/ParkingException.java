@@ -1,13 +1,11 @@
 package main.io.java.gojek.parkinglot1.exception;
 
-import main.io.java.gojek.parkinglot1.service.ParkingService;
 
-import java.awt.*;
 import java.util.Objects;
 
 public class ParkingException extends Exception {
 
-    static final long serialVersionUID = 4980196508277280342L;
+    private static final long serialVersionUID = 4980196508277280342L;
 
     private String		errorCode		= null;	// this will hold system defined error code
     private Object[]	errorParameters	= null;	// this will hold parameters for error code/message
