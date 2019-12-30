@@ -23,7 +23,8 @@ public class ServiceImplt implements ParkingService {
     public void createParkingLot(int capacity) throws ParkingException{
 
         if(dataManager !=null){
-            System.out.println("Parking Lot already exists");
+            //System.out.println("Parking Lot already exists");
+            throw new ParkingException(Error.PARKING_ALREADY_EXISTS.getMessage());
         }
 
         ParkingPlanning parkingPlanning = new NearestParkingPlanning();
