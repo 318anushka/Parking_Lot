@@ -28,7 +28,7 @@ public class Execution {
                     parkingService.createParkingLot(capacity);
                 }
                 catch(NumberFormatException e){
-                    System.out.println("Invalid value");
+                    System.out.println("Invalid value input");
                 }
 
                 break;

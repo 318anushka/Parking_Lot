@@ -46,7 +46,7 @@ public class ServiceImplt implements ParkingService {
             }
         }
         catch(Exception e){
-            System.out.println("Execution error");
+            System.out.println("Parking lot doesn't exist");
         }
 
 

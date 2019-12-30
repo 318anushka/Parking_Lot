@@ -13,6 +13,7 @@ public class Validation {
             switch (inputs[0]) {
 
                 case Constants.CREATE_PARKING_LOT:
+
                     valid = true;
                     break;
 

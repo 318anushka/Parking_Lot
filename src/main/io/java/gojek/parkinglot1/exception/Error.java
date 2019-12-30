@@ -5,7 +5,7 @@ public enum Error {
     PARKING_ALREADY_EXISTS("Parking lot already created"),
     PARKING_DO_NOT_EXIST("Parking does not exist"),
     INVALID_VALUE("input value is incorrect"),
-    EXECUTION_ERROE("Execution error"),
+    EXECUTION_ERROR("Execution error"),
 
     ;
 

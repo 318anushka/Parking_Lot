@@ -85,9 +85,10 @@ public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManag
             return false;
         }
 
-        slotMap.put(slot , null);
+        //System.out.println("code running till here");
         availability++;
         parkingPlanning.addSlot(slot);
+        slotMap.put(slot , Optional.empty());
         return true;
 
     }
