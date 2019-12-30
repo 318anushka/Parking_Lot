@@ -14,10 +14,13 @@ import main.io.java.gojek.parkinglot1.exception.Error;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ServiceImplt implements ParkingService {
 
     private ParkingDataManager<Vehicle> dataManager = null;
+    private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
     @Override
     public void createParkingLot(int capacity) throws ParkingException{
@@ -37,6 +40,7 @@ public class ServiceImplt implements ParkingService {
     public Optional<Integer> park(Vehicle vehicle) throws ParkingException{
 
         Optional<Integer> parkedAt = Optional.empty();
+        lock.writeLock().lock();
         validateParkingLot();
         try{
             parkedAt = Optional.of(dataManager.parkCar(vehicle));
@@ -56,6 +60,9 @@ public class ServiceImplt implements ParkingService {
             throw new ParkingException(Error.EXECUTION_ERROR.getMessage(),e);
 
         }
+        finally {
+            lock.writeLock().unlock();
+        }
 
 
 
@@ -65,6 +72,7 @@ public class ServiceImplt implements ParkingService {
     @Override
     public void leave(int slot) throws ParkingException {
 
+        lock.writeLock().lock();
         validateParkingLot();
         try {
             if (dataManager.leave(slot)) {
@@ -79,6 +87,9 @@ public class ServiceImplt implements ParkingService {
             //System.out.println("Invalid value input");
             throw new ParkingException(Error.INVALID_VALUE.getMessage(),e);
         }
+        finally {
+            lock.writeLock().unlock();
+        }
 
 
     }
@@ -88,6 +99,7 @@ public class ServiceImplt implements ParkingService {
 
         try {
 
+            lock.writeLock().lock();
             validateParkingLot();
             List<String> list = dataManager.getStatus();
             if(list.size()==0){
@@ -103,12 +115,16 @@ public class ServiceImplt implements ParkingService {
            // System.out.println("Execution error!");
             throw new ParkingException(Error.EXECUTION_ERROR.getMessage(),e);
         }
+        finally {
+            lock.writeLock().unlock();
+        }
 
     }
 
     @Override
     public void getRegistrationNoFromColor(String color) throws ParkingException {
 
+        lock.writeLock().lock();
         validateParkingLot();
         try {
             List<String> list = dataManager.getRegistrationNoFromColor(color);
@@ -125,12 +141,16 @@ public class ServiceImplt implements ParkingService {
             //System.out.println("Execution error");
             throw new ParkingException(Error.EXECUTION_ERROR.getMessage(),e);
         }
+        finally {
+            lock.writeLock().unlock();
+        }
 
     }
 
     @Override
     public void getSlotNoFromColor(String color) throws ParkingException{
 
+        lock.writeLock().lock();
         validateParkingLot();
         try {
             List<Integer> list = dataManager.getSlotNoFromColor(color);
@@ -147,12 +167,16 @@ public class ServiceImplt implements ParkingService {
             //System.out.println("Execution error");
             throw new ParkingException(Error.EXECUTION_ERROR.getMessage(),e);
         }
+        finally {
+            lock.writeLock().unlock();
+        }
 
     }
 
     @Override
     public void getSlotNoFromRegistrationNo(String registrationNo) throws ParkingException{
 
+        lock.writeLock().lock();
         validateParkingLot();
         try {
             int num = dataManager.getSlotNoFromRegistrationNo(registrationNo);
@@ -165,6 +189,9 @@ public class ServiceImplt implements ParkingService {
         catch(Exception e){
             //System.out.println("Execution error");
             throw new ParkingException(Error.EXECUTION_ERROR.getMessage(),e);
+        }
+        finally {
+            lock.writeLock().unlock();
         }
 
     }
