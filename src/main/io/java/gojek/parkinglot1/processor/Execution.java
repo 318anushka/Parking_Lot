@@ -1,9 +1,11 @@
 package main.io.java.gojek.parkinglot1.processor;
 
 import main.io.java.gojek.parkinglot1.constants.Constants;
+import main.io.java.gojek.parkinglot1.exception.ParkingException;
 import main.io.java.gojek.parkinglot1.model.Car;
 import main.io.java.gojek.parkinglot1.model.Vehicle;
 import main.io.java.gojek.parkinglot1.service.ParkingService;
+import main.io.java.gojek.parkinglot1.exception.Error;
 
 import java.util.Optional;
 
@@ -11,7 +13,7 @@ public class Execution {
 
     private ParkingService parkingService ;
 
-    public void setParkingService(ParkingService parkingService) throws Exception{
+    public void setParkingService(ParkingService parkingService) throws ParkingException{
         this.parkingService = parkingService;
     }
 
@@ -27,8 +29,10 @@ public class Execution {
                     int capacity = Integer.parseInt(inputs[1]);
                     parkingService.createParkingLot(capacity);
                 }
-                catch(NumberFormatException e){
-                    System.out.println("Invalid value input");
+                catch(NumberFormatException e) {
+                    //System.out.println("Invalid value input");
+                    throw new ParkingException(Error.INVALID_VALUE.getMessage(), e);
+
                 }
 
                 break;
@@ -44,7 +48,8 @@ public class Execution {
                     parkingService.leave(Integer.parseInt(inputs[1]));
                 }
                 catch(NumberFormatException e){
-                    System.out.println("Invalid Slot Number");
+                    //System.out.println("Invalid Slot Number");
+                    throw new ParkingException(Error.INVALID_VALUE.getMessage(), e);
                 }
                 break;
 

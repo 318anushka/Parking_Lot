@@ -1,10 +1,11 @@
 package main.io.java.gojek.parkinglot1.processor;
 
 import main.io.java.gojek.parkinglot1.constants.Constants;
+import main.io.java.gojek.parkinglot1.exception.ParkingException;
 
 public class Validation {
 
-    public boolean validate(String input)throws Exception{
+    public boolean validate(String input)throws ParkingException{
 
         boolean valid = false;
 

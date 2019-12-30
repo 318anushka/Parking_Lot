@@ -1,10 +1,12 @@
 package main.io.java.gojek.parkinglot1;
 
+import main.io.java.gojek.parkinglot1.exception.ParkingException;
 import main.io.java.gojek.parkinglot1.model.Vehicle;
 import main.io.java.gojek.parkinglot1.processor.Execution;
 import main.io.java.gojek.parkinglot1.processor.Validation;
 import main.io.java.gojek.parkinglot1.service.ParkingService;
 import main.io.java.gojek.parkinglot1.service.implement.ServiceImplt;
+import main.io.java.gojek.parkinglot1.exception.Error;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +15,7 @@ import java.util.Optional;
 
 public class main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws ParkingException {
 
         Execution execute = new Execution();
         Validation validate = new Validation();
@@ -37,7 +39,8 @@ public class main {
                         execute.execute(input);
                         }
                         catch(Exception e){
-                            System.out.println("Execution problem");
+
+                            System.out.println(e.getMessage());
                         }
                     } else {
                         inputFormat();
@@ -45,7 +48,9 @@ public class main {
                 }
             }
             catch(Exception e){
-                System.out.println("Invalid Request");
+                //System.out.println("Invalid Request");
+                throw new ParkingException(Error.INVALID_REQUEST.getMessage(),e);
+
             }
 
         }
@@ -80,4 +85,6 @@ public class main {
         System.out.println(sb.toString());
 
     }
+
+
 }
