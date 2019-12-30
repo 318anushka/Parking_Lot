@@ -37,6 +37,7 @@ public class ServiceImplt implements ParkingService {
     public Optional<Integer> park(Vehicle vehicle) throws ParkingException{
 
         Optional<Integer> parkedAt = Optional.empty();
+        validateParkingLot();
         try{
             parkedAt = Optional.of(dataManager.parkCar(vehicle));
             if(parkedAt.get() == -1){
@@ -64,6 +65,7 @@ public class ServiceImplt implements ParkingService {
     @Override
     public void leave(int slot) throws ParkingException {
 
+        validateParkingLot();
         try {
             if (dataManager.leave(slot)) {
                 System.out.println("Slot" + " " + slot + " " + "is empty");
@@ -86,6 +88,7 @@ public class ServiceImplt implements ParkingService {
 
         try {
 
+            validateParkingLot();
             List<String> list = dataManager.getStatus();
             if(list.size()==0){
                 System.out.println("Parking lot is empty");
@@ -106,6 +109,7 @@ public class ServiceImplt implements ParkingService {
     @Override
     public void getRegistrationNoFromColor(String color) throws ParkingException {
 
+        validateParkingLot();
         try {
             List<String> list = dataManager.getRegistrationNoFromColor(color);
             if(list.size()==0){
@@ -127,6 +131,7 @@ public class ServiceImplt implements ParkingService {
     @Override
     public void getSlotNoFromColor(String color) throws ParkingException{
 
+        validateParkingLot();
         try {
             List<Integer> list = dataManager.getSlotNoFromColor(color);
             if(list.size()==0){
@@ -148,6 +153,7 @@ public class ServiceImplt implements ParkingService {
     @Override
     public void getSlotNoFromRegistrationNo(String registrationNo) throws ParkingException{
 
+        validateParkingLot();
         try {
             int num = dataManager.getSlotNoFromRegistrationNo(registrationNo);
             if (num == 0) {
@@ -162,4 +168,13 @@ public class ServiceImplt implements ParkingService {
         }
 
     }
+
+    private void validateParkingLot() throws ParkingException
+    {
+        if (dataManager == null)
+        {
+            throw new ParkingException(Error.PARKING_DO_NOT_EXIST.getMessage());
+        }
+    }
+
 }
