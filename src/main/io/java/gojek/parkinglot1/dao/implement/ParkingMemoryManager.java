@@ -59,12 +59,13 @@ public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManag
 
     @Override
     public int parkCar(T vehicle) {
+        int availableSlot;
         if(availability == 0){
             System.out.println("Slot Not Available");
             return -1;
         }
         else {
-            int availableSlot = parkingPlanning.getSlots();
+            availableSlot = parkingPlanning.getSlots();
 
             if(slotMap.containsValue(Optional.of(vehicle))){
                 System.out.println("Vehicle Already Exists");
