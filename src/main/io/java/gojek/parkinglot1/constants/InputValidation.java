@@ -18,6 +18,11 @@ public class InputValidation {
         validInput.put(Constants.SLOTS_NUMBER_FOR_REG_NUMBER, 1);
     }
 
+    public static Map<String, Integer> getValidInput()
+    {
+        return validInput;
+    }
+
 
 }
 
