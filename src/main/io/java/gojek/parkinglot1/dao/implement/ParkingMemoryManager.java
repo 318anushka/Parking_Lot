@@ -128,7 +128,7 @@ public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManag
         List<Integer> slotList = new ArrayList<>();
         for(int i=1;i<=capacity;i++){
             Optional<T> vehicle = slotMap.get(i);
-            if((vehicle!=null) && color.equalsIgnoreCase(vehicle.get().getColor())){
+            if((vehicle.isPresent()) && color.equalsIgnoreCase(vehicle.get().getColor())){
 
                 slotList.add(i);
             }
