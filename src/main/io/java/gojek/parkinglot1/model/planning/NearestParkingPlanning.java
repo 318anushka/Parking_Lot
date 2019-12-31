@@ -6,7 +6,11 @@ import java.util.TreeSet;
 
 public class NearestParkingPlanning implements ParkingPlanning{
 
-    public TreeSet<Integer> freeSlots  = new TreeSet<Integer>();
+    private TreeSet<Integer> freeSlots;
+
+    public NearestParkingPlanning(){
+        freeSlots = new TreeSet<Integer>();
+    }
 
     @Override
     // add free slots to set
