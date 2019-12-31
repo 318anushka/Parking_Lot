@@ -15,9 +15,9 @@ public class main {
 
     public static void main(String[] args) throws ParkingException, IOException {
 
-        Execution execute = new Execution();
-        Validation validate = new Validation();
-        execute.setParkingService(new ServiceImplt());
+        Validation execute = new Execution();
+       // Validation validate = new Validation();
+        execute.setService(new ServiceImplt());
 
         BufferedReader br = null;
         String input = null;
@@ -37,7 +37,7 @@ public class main {
                         break;
                     } else {
 
-                        if (validate.validate(input)) {
+                        if (execute.validate(input)) {
                             try {
                                 execute.execute(input.trim());
                             } catch (Exception e) {
@@ -69,7 +69,7 @@ public class main {
 
                         input = input.trim();
 
-                        if (validate.validate(input)) {
+                        if (execute.validate(input)) {
                             try {
 
                                 execute.execute(input);

@@ -6,15 +6,12 @@ import main.io.java.gojek.parkinglot1.exception.ParkingException;
 import main.io.java.gojek.parkinglot1.model.Vehicle;
 import main.io.java.gojek.parkinglot1.model.planning.NearestParkingPlanning;
 import main.io.java.gojek.parkinglot1.model.planning.ParkingPlanning;
-import main.io.java.gojek.parkinglot1.processor.Execution;
 import main.io.java.gojek.parkinglot1.service.ParkingService;
 import main.io.java.gojek.parkinglot1.exception.Error;
 
 
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ServiceImplt implements ParkingService {

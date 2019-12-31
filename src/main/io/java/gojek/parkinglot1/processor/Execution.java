@@ -3,7 +3,6 @@ package main.io.java.gojek.parkinglot1.processor;
 import main.io.java.gojek.parkinglot1.constants.Constants;
 import main.io.java.gojek.parkinglot1.exception.ParkingException;
 import main.io.java.gojek.parkinglot1.model.Car;
-import main.io.java.gojek.parkinglot1.model.Vehicle;
 import main.io.java.gojek.parkinglot1.service.AbstractService;
 import main.io.java.gojek.parkinglot1.service.ParkingService;
 import main.io.java.gojek.parkinglot1.exception.Error;
