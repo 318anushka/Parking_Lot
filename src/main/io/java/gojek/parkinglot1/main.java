@@ -22,40 +22,40 @@ public class main {
         BufferedReader br = null;
         String input = null;
 
+        try{
+
         switch (args.length) {
 
-            case 0:
+            case 0: {
+                while (true) {
 
-            {
-            while (true) {
+                    try {
+                        br = new BufferedReader(new InputStreamReader(System.in));
+                        input = br.readLine().trim();
 
-                try {
-                    br = new BufferedReader(new InputStreamReader(System.in));
-                    input = br.readLine().trim();
-
-                    if (input.equalsIgnoreCase("exit")) {
-                        break;
-                    } else {
-
-                        if (execute.validate(input)) {
-                            try {
-                                execute.execute(input.trim());
-                            } catch (Exception e) {
-
-                                System.out.println(e.getMessage());
-                            }
+                        if (input.equalsIgnoreCase("exit")) {
+                            break;
                         } else {
-                            inputFormat();
+
+                            if (execute.validate(input)) {
+                                try {
+                                    execute.execute(input.trim());
+                                } catch (Exception e) {
+
+                                    System.out.println(e.getMessage());
+                                }
+                            } else {
+                                inputFormat();
+                            }
                         }
+                    } catch (Exception e) {
+                        //System.out.println("Invalid Request");
+                        throw new ParkingException(Error.INVALID_REQUEST.getMessage(), e);
+
                     }
-                } catch (Exception e) {
-                    //System.out.println("Invalid Request");
-                    throw new ParkingException(Error.INVALID_REQUEST.getMessage(), e);
 
                 }
-
-            }
-            break;
+                break;
 
             }
 
@@ -73,8 +73,7 @@ public class main {
                             try {
 
                                 execute.execute(input);
-                            }
-                            catch(Exception e){
+                            } catch (Exception e) {
                                 System.out.println(e.getMessage());
                             }
                         } else {
@@ -82,10 +81,9 @@ public class main {
                         }
                     }
 
-                }
-                catch(Exception e){
+                } catch (Exception e) {
 
-                    throw new ParkingException(Error.INVALID_REQUEST.getMessage() , e);
+                    throw new ParkingException(Error.INVALID_REQUEST.getMessage(), e);
                 }
                 break;
             }
@@ -95,6 +93,12 @@ public class main {
                 break;
             }
 
+        }
+
+        }
+        catch(ParkingException e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
