@@ -4,17 +4,25 @@ import main.io.java.gojek.parkinglot1.constants.Constants;
 import main.io.java.gojek.parkinglot1.exception.ParkingException;
 import main.io.java.gojek.parkinglot1.model.Car;
 import main.io.java.gojek.parkinglot1.model.Vehicle;
+import main.io.java.gojek.parkinglot1.service.AbstractService;
 import main.io.java.gojek.parkinglot1.service.ParkingService;
 import main.io.java.gojek.parkinglot1.exception.Error;
 
 import java.util.Optional;
 
-public class Execution {
+public class Execution implements Validation{
 
     private ParkingService parkingService ;
 
     public void setParkingService(ParkingService parkingService) throws ParkingException{
         this.parkingService = parkingService;
+    }
+
+    @Override
+    public void setService(AbstractService service) {
+
+        this.parkingService = (ParkingService) service;
+
     }
 
     public void execute(String input) throws ParkingException {
