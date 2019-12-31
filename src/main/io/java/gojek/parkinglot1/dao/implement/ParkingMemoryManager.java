@@ -10,13 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManager<T> {
 
     // initial capacity of lot
-    private int capacity = 0;
+    private AtomicInteger capacity = new AtomicInteger();
     // total available slots in lot
-    private int availability = 0;
+    private AtomicInteger availability = new AtomicInteger();
     // instance of ParkingPlanning
     private ParkingPlanning parkingPlanning;
 
@@ -40,9 +41,9 @@ public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManag
         return instance;
     }
 
-    public ParkingMemoryManager(int capacity , ParkingPlanning parkingPlanning){
-        this.capacity = capacity;
-        this.availability = capacity;
+    private ParkingMemoryManager(int capacity , ParkingPlanning parkingPlanning){
+        this.capacity.set(capacity);
+        this.availability.set(capacity);
         this.parkingPlanning = parkingPlanning;
 
         if(parkingPlanning == null){
@@ -60,20 +61,20 @@ public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManag
     @Override
     public int parkCar(T vehicle) {
         int availableSlot;
-        if(availability == 0){
+        if(availability.get() == 0){
             System.out.println("Slot Not Available");
             return -1;
         }
+
         else {
             availableSlot = parkingPlanning.getSlots();
-
 
             if (slotMap.containsValue(Optional.of(vehicle))) {
                 System.out.println("Vehicle Already Exists");
                 return -2;
             }
             slotMap.put(availableSlot, Optional.of(vehicle));
-            availability--;
+            availability.decrementAndGet();
             parkingPlanning.removeSlot(availableSlot);
 
         }
@@ -91,7 +92,7 @@ public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManag
         }
 
         //System.out.println("code running till here");
-        availability++;
+        availability.incrementAndGet();
         parkingPlanning.addSlot(slot);
         slotMap.put(slot , Optional.empty());
         return true;
@@ -102,7 +103,7 @@ public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManag
     public List<String> getStatus() {
 
         List<String> statusList = new ArrayList<>();
-        for(int i=1;i<=capacity;i++){
+        for(int i=1;i<=capacity.get();i++){
             Optional<T> v = slotMap.get(i);
             if(v.isPresent()){
                 statusList.add(i + "\t\t" + v.get().getRegistrationNo() + "\t\t" + v.get().getColor());
@@ -116,7 +117,7 @@ public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManag
     public List<String> getRegistrationNoFromColor(String color) {
 
         List<String> regList = new ArrayList<>();
-        for(int i=1;i<=capacity;i++){
+        for(int i=1;i<=capacity.get();i++){
             Optional<T> vehicle = slotMap.get(i);
             if(vehicle.isPresent() && color.equalsIgnoreCase(vehicle.get().getColor())){
 
@@ -131,7 +132,7 @@ public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManag
     public List<Integer> getSlotNoFromColor(String color) {
 
         List<Integer> slotList = new ArrayList<>();
-        for(int i=1;i<=capacity;i++){
+        for(int i=1;i<=capacity.get();i++){
             Optional<T> vehicle = slotMap.get(i);
             if((vehicle.isPresent()) && color.equalsIgnoreCase(vehicle.get().getColor())){
 
@@ -146,7 +147,7 @@ public class ParkingMemoryManager<T extends Vehicle> implements ParkingDataManag
     public int getSlotNoFromRegistrationNo(String registrationNo) {
 
         int slot = 0;
-        for(int i=1;i<=capacity;i++){
+        for(int i=1;i<=capacity.get();i++){
             Optional<T> vehicle = slotMap.get(i);
             if((vehicle.isPresent()) && registrationNo.equalsIgnoreCase(vehicle.get().getRegistrationNo())){
 
